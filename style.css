@@ -140,3 +140,19 @@
     background-color:#26AD13 !important;
     border-color: #26AD13 !important;
 }
+
+#actve{
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    color: #8B8B8B;
+}
+
+#cmpletd{
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    color: #8B8B8B;
+}

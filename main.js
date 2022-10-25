@@ -1,31 +1,36 @@
+// Midhun S
+// js file for ToDo list
+
 
 // Variable Declarations
 
-let form = document.getElementById("form-task")
-let title = document.getElementById("title-text")
-let description = document.getElementById("message-text")
-let currentDate = document.getElementById("due-date")
-let tasks = document.getElementById("tasks-cards")
-let add = document.getElementById("add")
+let form = document.getElementById("form-task")             
+let title = document.getElementById("title-text")           
+let description = document.getElementById("message-text")     
+let currentDate = document.getElementById("due-date")       
+let tasks = document.getElementById("tasks-cards")          
+let add = document.getElementById("add")                    
 let deleting = document.getElementById("exampleModal")
 let data = [];
-// console.log(data)
 let sortvalue = document.getElementById("sorts")
 let deleteindexx
 let editindexx
 let count_all = document.getElementById("count-all")
-// count_all=0
-// let searchinputs = document.getElementById("search-input")
+let count_active = document.getElementById("count-active")
+let count_completed = document.getElementById("count-completed")  
+
+countOfTask()
+getLocalStorage()
 
 
-
+// fuction for form submission 
 form.addEventListener("submit",(e) => {
     e.preventDefault();                  // prevent refreshing
     formValidation();                   // validating form
 });
 
 
-
+    
 //Validation Process
 //chekking title text feild is empty or not
 let formValidation = () => {
@@ -35,14 +40,11 @@ let formValidation = () => {
         console.log("sucess")
         acceptData();
         add.setAttribute("data-bs-dismiss","modal")
-        setDismissAttribute();
-       
-       
+        setDismissAttribute();   
     }
 }
 
 //Accepting the data
-
 let acceptData = () => {
     data.push({
 
@@ -51,15 +53,24 @@ let acceptData = () => {
         date : currentDate.value,
         iscomplete : "active"
     });
-    localStorage.setItem("data", JSON.stringify(data));
-    count_all.innerHTML++
-    // console.log(data)
+
     createTasks();
+    setLocalStorage()
 }
 
-//Creating the blocks for showing task
+function setLocalStorage(){
+    localStorage.setItem("data", JSON.stringify(data));
+}
 
-let createTasks = () => {
+function getLocalStorage(){
+    data = JSON.parse(localStorage.getItem("data")) || []
+   
+}
+    createTasks()
+    createCompleteTasks() 
+    
+//Creating the blocks for showing task
+function createTasks(){
     tasks.innerHTML = "";
     console.log("data", data)
     for(i=0;i<data.length;i++ ){
@@ -88,31 +99,24 @@ let createTasks = () => {
         `;
     }
 }
-    resetForm();
-
+   resetForm();
+   countOfTask()
 }
 
 //For deleting the Task
-
-
-
 function deleteTask(e){
-    deleteindexx = e
+    deleteindexx = e;
 };
-
 function deleteT(){
     data.splice(deleteindexx,1)
     console.log(data)
-    // all_counter.innerHTML--
     createTasks()
-    createCompleteTasks()  
-    localStorage.setItem("data", JSON.stringify(data));  
-    count_all.innerHTML--
-    
+    createCompleteTasks()
+    countOfTask() 
+    setLocalStorage()
 }
 
-
-
+//function for editing Task
 function editTask(e){
     console.log("Edit modal open")
     editindexx = e
@@ -128,58 +132,42 @@ function edit(){
     data[editindexx].date = document.getElementById("edited-due-date").value;
     
     createTasks()
-    createCompleteTasks() 
-    localStorage.setItem("data", JSON.stringify(data));  
-  
+    createCompleteTasks()   
     console.log(data)
+    setLocalStorage()
 }
 
-
-
-let resetForm = () =>{
-
-
+// clear the form inputs after submission
+function resetForm(){
     title.value = '';
     description.value = '';
     currentDate.value = '';
-
 };
 
-//For retriving the data form the local storage
 
-(() => {
-    // console.log(data)
-    data = JSON.parse(localStorage.getItem("data"));
-    // console.log(data)
-    createTasks();
-   
-})()
-
-
-
+// adding a attribute to the add butoon to dismiss after submission
 let setDismissAttribute = () =>{
     add.click()
     add.setAttribute("data-bs-dismiss","")
 }
 
-
-
+// setting up the sort button for which type of sort is to be done
 sortvalue.addEventListener("change",function(){
     if(this.value == 1){
         titleSorting ()
         createTasks()
-        localStorage.setItem("data", JSON.stringify(data));
         console.log(data)
+        setLocalStorage()
     }
     else{
     dateSorting()
     console.log(data)
-    localStorage.setItem("data", JSON.stringify(data));
     createTasks()
+    setLocalStorage()
     }
 })
 
-
+// function for function title sorting
 function titleSorting (){
 
     return data.sort(function(a,b){
@@ -193,8 +181,7 @@ function titleSorting (){
     })
 }
 
-
-
+// function for function date sorting
 function dateSorting (){
     return data.sort(function(a,b){
         if(a.date < b.date){
@@ -207,30 +194,26 @@ function dateSorting (){
     })
 }
  
-
-
-
+// function for checking the task-card is checked or not and seprete them 
 function acceptcheckbox(indexofcheck){
     var checkIndex = document.getElementById(indexofcheck);
     if(checkIndex.checked == true){
         data[indexofcheck].iscomplete = "completed"
-        localStorage.setItem("data", JSON.stringify(data));
+        
     }
     else{
         data[indexofcheck].iscomplete = "active"
-        localStorage.setItem("data", JSON.stringify(data));
+        
     }
     createTasks()
-    createCompleteTasks()  
- 
- 
+    createCompleteTasks()
+    setLocalStorage()
+    countOfTask()
+
 }
 
-
-
-
-let createCompleteTasks = () => {
-
+// creating-completed cards
+function createCompleteTasks(){
     document.querySelector('#completed').innerHTML = ""
     console.log("HAI",data)
     for(i=0;i<data.length;i++ ){
@@ -258,15 +241,12 @@ let createCompleteTasks = () => {
         </div>         
         `;
         }
-    
     }
     resetForm();
-    
-    
+    countOfTask()
 }
 
-
-
+// Function for display completed task
 function displayCompleted(){
    
         document.querySelector('#tasks-cards').style.display = "none"
@@ -275,11 +255,9 @@ function displayCompleted(){
         document.querySelector('#cmpletd').style.display = "block"
 
         console.log("function display complted active")
-      
-    
 }
 
-
+// Function for display active task
 function displayActive(){
    
     document.querySelector('#tasks-cards').style.display = "block"
@@ -287,10 +265,9 @@ function displayActive(){
     document.querySelector('#actve').style.display = "block"
     document.querySelector('#cmpletd').style.display = "none"
     console.log("function display active")
-    
-
 }
 
+// Function for display all
 
     function displayAll(){
     
@@ -299,22 +276,77 @@ function displayActive(){
         document.querySelector('#actve').style.display = "block"
         document.querySelector('#cmpletd').style.display = "block"
         console.log("function display complted active")
-        
-
     }
 
+    // Function for clear all the completed task
     function clearCompletedTask(){
-        for(i=0; i<data.length;i++){
-            if(data[i].iscomplete == "completed"){
-                data.splice(data[i],1)
+        for(j=0; j<data.length;j++){
+            if(data[j].iscomplete == "completed"){
+                data.splice(j,1)
+                j--
             }
+            createTasks()
+            createCompleteTasks() 
+            setLocalStorage() 
+            countOfTask()
         }
         console.log("clearCompletedTask")
+}
+
+
+// Function for counting the the tasks
+
+function countOfTask(){
+
+
+    count_all.innerHTML =""
+    count_active.innerHTML =""
+    count_completed.innerHTML =""
+    for(i = 0 ; i < data.length  ; i++){
+        count_all.innerHTML++
+        if(data[i].iscomplete == "active"){
+            count_active.innerHTML++
+        }
+        if(data[i].iscomplete == "completed"){
+            count_completed.innerHTML++
+        }
     }
+}
+
+
+// searchinputs.addEventListener("input", () =>{
+    // let searchinputs = document.getElementById("searchinput").value.toUpperCase();
+//     const storecads = document.getElementById("tasks-cards")
+//     const cardss = document.querySelector(".card")
+//     title
+
+//     for( i =0; i <title.length; i++){
+//         let match = storecads[i].title[0]
+
+//         if(match){
+//             let textedValue = match.textContent || match.innerHTML
+
+//             if(textvalue.toUpperCase().indexOf(searchinputs) > -1){
+//                 storecads[i].style.display = "";
+//             }else{
+//                 storecads[i].style.display = "none";
+//             }
+//         }
+//     }
+    
+
+
+    // const includesValue = data.includes(searchinputs);
+    // console.log("enterd in search function")
+// })
 
 
 
-// search-input.addEventListener("onkeyup",searchFnctn(this))
+// searchinputs.addEventListener("input", () =>{
+//     console.log("searchhhhh")
+//     const includesValue = data.includes(searchinputs);
+// })
+
 
 // searchFnctn = (e) => {
 //     const includesValue = data.includes(searchinputs);

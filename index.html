@@ -34,10 +34,10 @@
                 <a class="nav-link" onclick="displayAll()" href="#">All(<span id="count-all"></span>)</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link"  href="#" onclick="displayActive()">Active</a>
+                <a class="nav-link"  href="#" onclick="displayActive()">Active(<span id="count-active"></span>)</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link"  href="#" onclick="displayCompleted()">Completed</a>
+                <a class="nav-link"  href="#" onclick="displayCompleted()">Completed(<span id="count-completed"></span>)</a>
               </li>
             </ul>
           
@@ -62,7 +62,7 @@
       <div class="divison-1 py-3 d-flex justify-content-between">
         <div class="search-part d-flex align-items-center justify-content-between">
         <form class="d-flex justify-content-between" role="search">
-            <input class="form-control-1 me-2 border-0" type="search" placeholder="Search by task name " aria-label="Search"  id="search-input"> 
+            <input class="form-control-1 me-2 border-0" type="search" placeholder="Search by task name " aria-label="Search"  id="searchinput"> 
             <i class="bi bi-search p-3"></i> 
         </form> 
         </div>
@@ -81,12 +81,12 @@
 <div> </div>
 
                                                                                             <!-- Cards -->
-        <h6 class="mt-4 mx-2" id="actve">Active Task</h6>
+        <h6 class="mt-4 mx-2 d-flex" id="actve">Active Task</h6>
         <div id="tasks-cards">    
 
         </div>
 
-        <h6 class="mt-4 mx-2" id="cmpletd">Completed Task</h6>
+        <h6 class="mt-4 mx-2 d-flex" id="cmpletd">Completed Task</h6>
         <div id="completed">    
 
         </div>
