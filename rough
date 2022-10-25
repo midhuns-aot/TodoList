@@ -1,0 +1,33 @@
+  data.map((x,y)=>{ 
+        return (tasks.innerHTML += `
+    
+        <div class="card d-flex  justify-content-between ">
+            <div class="card-body d-flex justify-content-between ">
+                <div class="chek-main d-flex  align-items-center gap-4">
+                    <div>
+                        <input class="form-check-input rounded-circle check ms-3 mt-0 mt-0" type="checkbox">
+                    </div>  
+                    <div>
+                        <p id="title-to-disp">${x.text}</p>
+                        <p id="date-to-disp"> <i class="bi bi-calendar3"></i> &emsp; ${x.date}</p>
+                    </div>
+                </div>
+    
+    
+                <div class="options d-flex  align-items-center gap-4">
+                    <i onClick="editTask(this)" data-bs-toggle="modal" data-bs-target="#addTaskModal" class="bi bi-pencil-fill"></i>
+                    <i data-bs-toggle="modal" data-bs-target="#forDeletion" class="bi bi-trash"></i>
+                </div>
+            </div>
+        </div>
+    
+        `);
+    })
+
+
+
+
+
+
+
+    

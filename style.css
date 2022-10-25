@@ -1,0 +1,142 @@
+
+
+.my-task{
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    color: #282829;
+}
+
+.nav-link{
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #09174A;
+
+    opacity: 0.6;
+
+}
+/* search bar width */
+.form-control-1{
+    width: 578px;
+   
+}
+
+.form-control{
+
+    background: rgba(163, 163, 163, 0.1);
+    height: 44px;
+    background: #FFFFFF;
+
+}
+
+#sort-by{
+
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #09174A;
+    padding-top: 10px;
+
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #09174A;
+
+
+}
+
+.btn-drp-dwn{
+
+    width: 143px;
+    height: 33px;
+    background-color: rgba(65, 48, 48, 0.1);
+    border: 1px;
+    border-radius: 5px;
+
+
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    color: #282829;
+
+}
+
+.search-part {
+
+    background: #FFFFFF;
+    border: 1px solid #CECECE;
+    border-radius: 5px;
+ 
+}
+
+
+#title-to-disp{
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    color: #282829;
+}
+
+
+#date-to-disp{
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    text-align: justify;
+
+    color: #888888;
+}
+
+
+.form-check-input{
+    width: 30px;
+    height: 30px;
+}
+
+.card{
+
+    box-shadow: 0px -7px 89px rgba(0, 0, 0, 0.17), 0px -2.55512px 32.4865px rgba(0, 0, 0, 0.117297), 0px -1.24046px 15.7716px rgba(0, 0, 0, 0.0945694), 0px -0.608097px 7.73152px rgba(0, 0, 0, 0.0754306), 0px -0.240442px 3.05705px rgba(0, 0, 0, 0.0527031);
+}
+
+/* #tasks-cards{
+    display: grid;
+    gap: 40px;
+
+}
+
+#completed{
+    display: grid;
+    gap: 40px;
+} */
+
+.options i{
+    cursor: pointer;
+}
+
+
+#dlt-task{
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    
+    color: #09174A;
+}
+
+#dlt-task-msg{
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+
+    color: #09174A;
+}
+
+
+.delete-icn{
+    color: red;
+}
+
+.form-check-input:checked {
+    background-color:#26AD13 !important;
+    border-color: #26AD13 !important;
+}
