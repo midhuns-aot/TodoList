@@ -3,18 +3,29 @@
 
 
 // Variable Declarations
-
+// form elements
 let form = document.getElementById("form-task")             
 let title = document.getElementById("title-text")           
 let description = document.getElementById("message-text")     
-let currentDate = document.getElementById("due-date")       
+let currentDate = document.getElementById("due-date")  
+
+// cards
 let tasks = document.getElementById("tasks-cards")          
 let add = document.getElementById("add")                    
 let deleting = document.getElementById("exampleModal")
+
+//array
 let data = [];
+let filteredArray = []
+
+//for sorting
 let sortvalue = document.getElementById("sorts")
+
+//card options
 let deleteindexx
 let editindexx
+
+//for counting
 let count_all = document.getElementById("count-all")
 let count_active = document.getElementById("count-active")
 let count_completed = document.getElementById("count-completed")  
@@ -25,7 +36,7 @@ getLocalStorage()
 
 // fuction for form submission 
 form.addEventListener("submit",(e) => {
-    e.preventDefault();                  // prevent refreshing
+    e.preventDefault();                 // prevent refreshing   p
     formValidation();                   // validating form
 });
 
@@ -58,17 +69,19 @@ let acceptData = () => {
     setLocalStorage()
 }
 
+
+//setiing up local storage
 function setLocalStorage(){
     localStorage.setItem("data", JSON.stringify(data));
 }
 
 function getLocalStorage(){
-    data = JSON.parse(localStorage.getItem("data")) || []
-   
+    data = JSON.parse(localStorage.getItem("data")) || []  
 }
     createTasks()
     createCompleteTasks() 
     
+
 //Creating the blocks for showing task
 function createTasks(){
     tasks.innerHTML = "";
@@ -85,7 +98,7 @@ function createTasks(){
                     </div>  
                     <div>
                         <p id="title-to-disp">${data[i].text} <img src="/image/Ellipse 1.png" alt="image"></p>
-                        <p id="date-to-disp"> <i class="bi bi-calendar3"></i> &emsp; ${data[i].date}</p>
+                        <p id="date-to-disp${i}"> <i class="bi bi-calendar3"></i> &emsp; ${data[i].date}</p>
                     </div>
                 </div>
     
@@ -97,6 +110,7 @@ function createTasks(){
             </div>
         </div>
         `;
+        checkingDueDate(i)
     }
 }
    resetForm();
@@ -175,9 +189,10 @@ function titleSorting (){
         return -1;
     } 
  
-    if (a.text.toLowerCase() < b.text.toLowerCase()){
+    if (a.text.toLowerCase() > b.text.toLowerCase()){
         return 1;
     } 
+    return 0
     })
 }
 
@@ -215,7 +230,7 @@ function acceptcheckbox(indexofcheck){
 // creating-completed cards
 function createCompleteTasks(){
     document.querySelector('#completed').innerHTML = ""
-    console.log("HAI",data)
+    console.log(data)
     for(i=0;i<data.length;i++ ){
         if(data[i].iscomplete == "completed"){
             document.querySelector('#completed').innerHTML += ` 
@@ -228,7 +243,7 @@ function createCompleteTasks(){
                     </div>  
                     <div>
                         <p id="title-to-disp">${data[i].text} <img src="/image/Ellipse 12 (1).png" alt="image"></p>
-                        <p id="date-to-disp"> <i class="bi bi-calendar3"></i> &emsp; ${data[i].date}</p>
+                        <p id="date-to-disp${i}"> <i class="bi bi-calendar3"></i> &emsp; ${data[i].date}</p>
                     </div>
                 </div>
     
@@ -314,41 +329,111 @@ function countOfTask(){
 }
 
 
-// searchinputs.addEventListener("input", () =>{
-    // let searchinputs = document.getElementById("searchinput").value.toUpperCase();
-//     const storecads = document.getElementById("tasks-cards")
-//     const cardss = document.querySelector(".card")
-//     title
 
-//     for( i =0; i <title.length; i++){
-//         let match = storecads[i].title[0]
 
-//         if(match){
-//             let textedValue = match.textContent || match.innerHTML
 
-//             if(textvalue.toUpperCase().indexOf(searchinputs) > -1){
-//                 storecads[i].style.display = "";
-//             }else{
-//                 storecads[i].style.display = "none";
-//             }
-//         }
-//     }
+
+function taskSearch(){
+    
+     var searchinputs = document.getElementById("searchinput").value
+     console.log(searchinputs)
+
+    elementss = data.filter(function(x,index){
+    arayelements =  (x.text.toLowerCase().includes(searchinputs))
+      if(arayelements){
+        filteredArray.push(index)
+    }
+   })
+     
+   tasks.innerHTML = ""
+   document.querySelector('#completed').innerHTML = ""
+   for(i=0;i<filteredArray.length;i++){
+    activeTaskSearch()
+    CompletedTaskSearch()
+   }
+   filteredArray = []
+}
+
+
+function activeTaskSearch(){
+    
+    
+        if(data[filteredArray[i]].iscomplete == "active"){
+        tasks.innerHTML += ` 
+           
+        <div class="card d-flex  justify-content-between my-4">
+            <div class="card-body d-flex justify-content-between ">
+                <div class="chek-main d-flex  align-items-center gap-4">
+                    <div>
+                        <input class="form-check-input rounded-circle check ms-3 mt-0 mt-0" id=${filteredArray[i]} onclick='acceptcheckbox(${filteredArray[i]})' type="checkbox" value="" >
+                    </div>  
+                    <div>
+                        <p id="title-to-disp">${data[filteredArray[i]].text} <img src="/image/Ellipse 1.png" alt="image"></p>
+                        <p id="date-to-disp"> <i class="bi bi-calendar3"></i> &emsp; ${data[filteredArray[i]].date}</p>
+                    </div>
+                </div>
+    
+    
+                <div class="options d-flex  align-items-center gap-4">
+                    <i  data-bs-toggle="modal" data-bs-target="#editModal2" onclick = "editTask(${filteredArray[i]})" class="bi bi-pencil-fill text-secondary"></i>
+                    <i data-bs-toggle="modal" data-bs-target="#forDeletion"  onclick ="deleteTask(${filteredArray[i]})" class="bi bi-trash text-danger"></i>
+                </div>
+            </div>
+        </div>
+        `;
+        checkingDueDate(filteredArray[i])
+    }
+
+   }
+
+
+   //searched completed
+
+function CompletedTaskSearch(){
+    
+        if(data[filteredArray[i]].iscomplete == "completed"){
+            document.querySelector('#completed').innerHTML += ` 
+           
+            <div class="card d-flex justify-content-between my-4">
+            <div class="card-body d-flex justify-content-between ">
+                <div class="chek-main d-flex  align-items-center gap-4">
+                    <div>
+                        <input class="form-check-input rounded-circle check ms-3 mt-0 mt-0" onclick='acceptcheckbox(${filteredArray[i]})' type="checkbox" value=""  id="${filteredArray[i]}" checked>
+                    </div>  
+                    <div>
+                        <p id="title-to-disp">${data[filteredArray[i]].text} <img src="/image/Ellipse 12 (1).png" alt="image"></p>
+                        <p id="date-to-disp"> <i class="bi bi-calendar3"></i> &emsp; ${data[filteredArray[i]].date}</p>
+                    </div>
+                </div>
+    
+    
+                <div class="options d-flex  align-items-center gap-4">
+                <i  data-bs-toggle="modal" data-bs-target="#editModal2" onclick = "editTask(${filteredArray[i]})" class="bi bi-pencil-fill text-secondary"></i>
+                <i data-bs-toggle="modal" data-bs-target="#forDeletion"  onclick ="deleteTask(${filteredArray[i]})" class="bi bi-trash text-danger"></i>
+            </div>
+            </div>
+        </div>         
+        `;
+        }
     
 
+}
 
-    // const includesValue = data.includes(searchinputs);
-    // console.log("enterd in search function")
-// })
+//due date
+
+function checkingDueDate(index) {
+    let currentDate = new Date();
+    let todoDAte = new Date(data[index].date);
+    if(currentDate > todoDAte)
+    { 
+      document.getElementById(`date-to-disp${index}`).style.color = " #C03503";
+      document.getElementById(`date-to-disp${index}`).style.backgroundColor = "rgba(192, 53, 3, 0.06)";
+    }
+    
+}
 
 
 
-// searchinputs.addEventListener("input", () =>{
-//     console.log("searchhhhh")
-//     const includesValue = data.includes(searchinputs);
-// })
 
 
-// searchFnctn = (e) => {
-//     const includesValue = data.includes(searchinputs);
-//     console.log(includesValue);
-// }
+
